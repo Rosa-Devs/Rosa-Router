@@ -4,30 +4,48 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"strings"
 )
 
-type clientType map[string]bool
+// cache
 
-var clients = clientType{}
-
-func (c clientType) keys(filter string) string {
-	output := []string{}
-	for key := range c {
-		if key != filter {
-			output = append(output, key)
-		}
-	}
-
-	return strings.Join(output, ",")
+type Cache struct {
+	data map[string][]interface{}
 }
 
-// Server --
+func NewCache() *Cache {
+	return &Cache{data: make(map[string][]interface{})}
+}
+
+func (c *Cache) Add(key string, value interface{}) {
+	c.data[key] = append(c.data[key], value)
+}
+
+func (c *Cache) Get(key string) []interface{} {
+	return c.data[key]
+}
+
+// Server -- UDP
 func Server() {
 	localAddress := ":9595"
 	if len(os.Args) > 2 {
 		localAddress = os.Args[2]
 	}
+
+	fmt.Println("UDP Server started: ", localAddress)
+
+	// init new cache
+
+	fmt.Print("Initializing local cache...")
+
+	cache := NewCache()
+
+	// cache.Add("key1", "value2")
+	// cache.Add("key2", "value3")
+	// cache.Add("key1", "value2")
+
+	fmt.Print(" DONE!")
+
+	//run server
 
 	addr, _ := net.ResolveUDPAddr("udp", localAddress)
 	conn, _ := net.ListenUDP("udp", addr)
@@ -39,21 +57,17 @@ func Server() {
 			panic(err)
 		}
 
-		incoming := string(buffer[0:bytesRead])
-		fmt.Println("[INCOMING]", incoming)
-		if incoming != "register" {
-			continue
-		}
-
-		clients[remoteAddr.String()] = true
-
-		for client := range clients {
-			resp := clients.keys(client)
-			if len(resp) > 0 {
-				r, _ := net.ResolveUDPAddr("udp", client)
-				conn.WriteTo([]byte(resp), r)
-				fmt.Printf("[INFO] Responded to %s with %s\n", client, string(resp))
-			}
-		}
+		go worker(buffer, bytesRead, remoteAddr, conn, cache)
 	}
+}
+
+func worker(buffer []byte, bytesRead int, remoteAddr *net.UDPAddr, conn *net.UDPConn, cache *Cache) {
+	incoming := string(buffer[0:bytesRead])
+	fmt.Println("[INCOMING]", incoming)
+
+	cache.Add("key1", incoming)
+
+	values := cache.Get("key1")
+	fmt.Println("Values for key1:", values)
+
 }
