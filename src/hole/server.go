@@ -1,12 +1,18 @@
 package hole
 
 import (
+	"encoding/json"
 	"fmt"
 	"net"
 	"os"
 )
 
 // cache
+
+type Person struct {
+	Cmd string `json:"cmd"`
+	Id  string `json:"id"`
+}
 
 type Cache struct {
 	data map[string][]interface{}
@@ -43,7 +49,7 @@ func Server() {
 	// cache.Add("key2", "value3")
 	// cache.Add("key1", "value2")
 
-	fmt.Print(" DONE!")
+	fmt.Println(" DONE!")
 
 	//run server
 
@@ -65,9 +71,22 @@ func worker(buffer []byte, bytesRead int, remoteAddr *net.UDPAddr, conn *net.UDP
 	incoming := string(buffer[0:bytesRead])
 	fmt.Println("[INCOMING]", incoming)
 
-	cache.Add("key1", incoming)
+	var person Person
+	err := json.Unmarshal([]byte(incoming), &person)
+	if err != nil {
+		panic(err)
+	}
 
-	values := cache.Get("key1")
-	fmt.Println("Values for key1:", values)
+	cache.Add(person.Id, incoming)
+
+	values := cache.data[person.Id]
+
+	var result string
+	for i, value := range values {
+		if i > 0 {
+			result += ","
+		}
+		result += fmt.Sprintf("%v", value)
+	}
 
 }

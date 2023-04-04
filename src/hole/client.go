@@ -25,12 +25,16 @@ func register() {
 	local, _ := net.ResolveUDPAddr("udp", localAddress)
 	conn, _ := net.ListenUDP("udp", local)
 	go func() {
-		bytesWritten, err := conn.WriteTo([]byte("register"), remote)
-		if err != nil {
-			panic(err)
+		for {
+			bytesWritten, err := conn.WriteTo([]byte("{'cmd': '1', 'id': 'pubkey'}"), remote) // id is public key
+			if err != nil {
+				panic(err)
+			}
+
+			fmt.Println(bytesWritten, " bytes written")
+			time.Sleep(5 * time.Second)
 		}
 
-		fmt.Println(bytesWritten, " bytes written")
 	}()
 
 	listen(conn, local.String())
