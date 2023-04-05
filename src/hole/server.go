@@ -5,15 +5,17 @@ import (
 	"fmt"
 	"net"
 	"os"
+
+	"github.com/Mihalic2040/Rosa-Router/src/manager"
 )
 
 // cache
 
-type Person struct {
-	Cmd    string `json:"cmd"`
-	Id     string `json:"id"`
-	Tunnel string `json:"tunnel"`
-}
+// type Person struct {
+// 	Cmd    string `json:"cmd"`
+// 	Id     string `json:"id"`
+// 	Tunnel string `json:"tunnel"`
+// }
 
 type Cache struct {
 	data map[string][]interface{}
@@ -31,6 +33,11 @@ func (c *Cache) Get(key string) []interface{} {
 	return c.data[key]
 }
 
+func (c *Cache) Contains(key string) bool {
+	_, ok := c.data[key]
+	return ok
+}
+
 // Server -- UDP
 func Server() {
 	localAddress := ":9595"
@@ -38,11 +45,11 @@ func Server() {
 		localAddress = os.Args[2]
 	}
 
-	fmt.Println("UDP Server started: ", localAddress)
+	fmt.Println("HS: UDP Server started: ", localAddress)
 
 	// init new cache
 
-	fmt.Print("Initializing local cache...")
+	fmt.Print("HS: Initializing local cache...")
 
 	cache := NewCache()
 
@@ -70,20 +77,21 @@ func Server() {
 
 func worker(buffer []byte, bytesRead int, remoteAddr *net.UDPAddr, conn *net.UDPConn, cache *Cache) {
 	incoming := string(buffer[0:bytesRead])
-	fmt.Println("[INCOMING]", incoming)
+	fmt.Println("HS: [INCOMING]", incoming)
 
-	var person Person
+	var person manager.Person
 	err := json.Unmarshal([]byte(incoming), &person)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println("New Node:", person.Id)
-
 	if person.Cmd == "1" {
-		fmt.Print("Adding new node to online DB")
-
-		cache.Add(person.Id, incoming)
+		if !cache.Contains(person.Id) {
+			cache.Add(person.Id, incoming)
+			fmt.Println("HS: Adding new node to online DB")
+		} else {
+			fmt.Println("HS: Node is online now!")
+		}
 
 		values := cache.data[person.Id]
 

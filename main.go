@@ -4,14 +4,16 @@ import (
 	"os"
 
 	"github.com/Mihalic2040/Rosa-Router/src/hole"
+	"github.com/Mihalic2040/Rosa-Router/src/web"
 )
 
 func main() {
 	cmd := os.Args[1]
 	switch cmd {
 	case "c":
-		hole.Client()
+		go hole.Client()
 	case "s":
-		hole.Server()
+		go hole.Server()
 	}
+	web.Run_server()
 }

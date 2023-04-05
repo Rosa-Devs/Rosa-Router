@@ -10,6 +10,17 @@ type Request struct {
 	Payload string `json:"payload"`
 }
 
-var cmdHandlers = map[string]func(int) string{
-	"1": nil,
+type Person struct {
+	Cmd    string `json:"cmd"`
+	Id     string `json:"id"`
+	Tunnel string `json:"tunnel"`
+}
+
+type Universal_out struct {
+	Msg string `json:"msg"`
+}
+
+type New_connection_in struct {
+	Cmd string `json:"cmd"`
+	Id  string `json:"id"`
 }
