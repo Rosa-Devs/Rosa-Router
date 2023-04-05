@@ -10,8 +10,9 @@ import (
 // cache
 
 type Person struct {
-	Cmd string `json:"cmd"`
-	Id  string `json:"id"`
+	Cmd    string `json:"cmd"`
+	Id     string `json:"id"`
+	Tunnel string `json:"tunnel"`
 }
 
 type Cache struct {
@@ -77,16 +78,27 @@ func worker(buffer []byte, bytesRead int, remoteAddr *net.UDPAddr, conn *net.UDP
 		panic(err)
 	}
 
-	cache.Add(person.Id, incoming)
+	fmt.Println("New Node:", person.Id)
 
-	values := cache.data[person.Id]
+	if person.Cmd == "1" {
+		fmt.Print("Adding new node to online DB")
 
-	var result string
-	for i, value := range values {
-		if i > 0 {
-			result += ","
-		}
-		result += fmt.Sprintf("%v", value)
+		cache.Add(person.Id, incoming)
+
+		values := cache.data[person.Id]
+
+		fmt.Println(values)
 	}
+	//cache.Add(person.Id, incoming)
+
+	//values := cache.data[person.Id]
+
+	//var result string
+	//for i, value := range values {
+	//	if i > 0 {
+	//		result += ","
+	//	}
+	//	result += fmt.Sprintf("%v", value)
+	//}
 
 }

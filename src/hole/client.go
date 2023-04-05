@@ -26,7 +26,7 @@ func register() {
 	conn, _ := net.ListenUDP("udp", local)
 	go func() {
 		for {
-			bytesWritten, err := conn.WriteTo([]byte("{'cmd': '1', 'id': 'pubkey'}"), remote) // id is public key
+			bytesWritten, err := conn.WriteTo([]byte(`{"cmd": "1", "id": "pubkey", "tunnel": "None"}`), remote) // id is public key | Defualt tunel data is None
 			if err != nil {
 				panic(err)
 			}
