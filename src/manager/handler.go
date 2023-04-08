@@ -1,13 +1,13 @@
 package manager
 
-type Request struct {
-	Cmd     string `json:"cmd"`
-	Id      string `json:"id"`
-	Ip      string `json:"ip"`
-	Port    string `json:"port"`
-	Rating  string `json:"rating"`
-	Hs      bool   `json:"false"`
-	Payload string `json:"payload"`
+type Node struct {
+	Id     string `json:"id"`
+	Pubkey string `json:"pubkey"`
+	Ip     string `json:"ip"`
+	Port   string `json:"port"`
+	Rating string `json:"rating"`
+	Hs     bool   `json:"false"`
+	HsPort string `json:"hsport"`
 }
 
 type Person struct {
