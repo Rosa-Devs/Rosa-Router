@@ -6,7 +6,7 @@ type Node struct {
 	Ip     string `json:"ip"`
 	Port   string `json:"port"`
 	Rating string `json:"rating"`
-	Hs     bool   `json:"false"`
+	Hs     string `json:"hs"`
 	HsPort string `json:"hsport"`
 }
 

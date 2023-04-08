@@ -30,12 +30,21 @@ func register() {
 	Conn, _ := net.ListenUDP("udp", local)
 	go func() {
 		for {
-			bytesWritten, err := Conn.WriteTo([]byte(`{"cmd": "1", "id": "pubkey", "tunnel": "None"}`), remote) // id is public key | Defualt tunel data is None
+			bytesWritten, err := Conn.WriteTo([]byte(`{
+				"cmd" : "1",
+				"pubkey": "puubkey123",
+				"ip": "127.0.0.1",
+				"port": "8080",
+				"rating": "5",
+				"hs": "false",
+				"hsport": "8443"
+			}
+			`), remote) // id is public key | Defualt tunel data is None
 			if err != nil {
 				panic(err)
 			}
 
-			fmt.Println(bytesWritten, " bytes written")
+			fmt.Println("CLI: send to HS:", bytesWritten, " bytes")
 			time.Sleep(5 * time.Second)
 		}
 
@@ -46,7 +55,7 @@ func register() {
 
 func listen(conn *net.UDPConn, local string) {
 	for {
-		fmt.Println("listening")
+		fmt.Println("CLI: listening on", local)
 		buffer := make([]byte, 1024)
 		bytesRead, err := conn.Read(buffer)
 		if err != nil {
@@ -54,10 +63,7 @@ func listen(conn *net.UDPConn, local string) {
 			continue
 		}
 
-		fmt.Println("[INCOMING]", string(buffer[0:bytesRead]))
-		if string(buffer[0:bytesRead]) == "Hello!" {
-			continue
-		}
+		fmt.Println("CLI: [INCOMING]", string(buffer[0:bytesRead]))
 
 		incoming := string(buffer[0:bytesRead])
 
