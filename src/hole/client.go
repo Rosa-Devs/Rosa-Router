@@ -44,6 +44,7 @@ func register() {
 				panic(err)
 			}
 
+			//logger.LogD(logger.LogLevelInfo, "CLI", "send to HS bytes")
 			fmt.Println("CLI: send to HS:", bytesWritten, " bytes")
 			time.Sleep(5 * time.Second)
 		}

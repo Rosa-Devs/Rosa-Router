@@ -8,7 +8,11 @@ import (
 	"github.com/Mihalic2040/Rosa-Router/src/web"
 )
 
+// Logger
+
+// Entrypoint
 func main() {
+
 	cmd := os.Args[1]
 
 	// init Db
