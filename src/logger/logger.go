@@ -14,7 +14,7 @@ const (
 	LogLevelInfo
 )
 
-func LogD(level LogLevel, component string, msg string) {
+func Log(level LogLevel, component string, msg string) {
 	var prefix string
 	switch level {
 	case LogLevelError:

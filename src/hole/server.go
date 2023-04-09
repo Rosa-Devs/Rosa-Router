@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"strconv"
 
 	"github.com/Mihalic2040/Rosa-Router/src/database"
 	"github.com/Mihalic2040/Rosa-Router/src/manager"
@@ -96,17 +97,18 @@ func worker(buffer []byte, bytesRead int, remoteAddr *net.UDPAddr, conn *net.UDP
 
 			//Make changes
 
-			node.Ip = string(remoteAddr.IP)
-			node.Port = string(remoteAddr.Port)
+			node.Ip = remoteAddr.IP.String()
+			node.Port = strconv.Itoa(remoteAddr.Port)
 
 			node_json := serialization.SerializateNode(node.Pubkey, node.Ip, node.Port, node.Rating, node.Hs, node.HsPort)
 			//fmt.Println("HS: remote ADDR ", remoteAddr.IP, " PORT: ", remoteAddr.Port)
 			fmt.Println("HS: Adding new node to online DB")
 
+			cache.Add(node.Pubkey, string(node_json))
 			database.AddNewNode(string(node_json))
-		} else {
-			fmt.Println("HS: Node is online now!")
-		}
+		} //else {
+		//fmt.Println("HS: Node is online now!")
+		//}el
 
 		//values := cache.data[person.Id]
 
@@ -114,6 +116,19 @@ func worker(buffer []byte, bytesRead int, remoteAddr *net.UDPAddr, conn *net.UDP
 
 		//test
 
+	}
+
+	if person.Cmd == "2" {
+		node, _ := serialization.DeserializeNode(incoming)
+
+		pubkey := node.Pubkey
+
+		values := cache.data[pubkey]
+		fmt.Println(values)
+
+		s := fmt.Sprintf("%v", values)
+
+		conn.WriteTo([]byte(s), remoteAddr)
 	}
 	//cache.Add(person.Id, incoming)
 

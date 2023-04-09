@@ -8,7 +8,7 @@ import (
 )
 
 func AddNewNode(Node string) {
-	fmt.Println("DB: Addding NODE: ", Node)
+
 	add(Node)
 }
 
@@ -20,6 +20,7 @@ func add(Node string) {
 	count := FindNodeById(Node)
 
 	//fmt.Println(count)
+	fmt.Println("DB: Addding NODE", "Pubkey:", node.Pubkey, "Ip:", node.Ip, "Port:", node.Port)
 
 	if count > 0 {
 		// Update the existing record

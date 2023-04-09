@@ -31,7 +31,7 @@ func register() {
 	go func() {
 		for {
 			bytesWritten, err := Conn.WriteTo([]byte(`{
-				"cmd" : "1",
+				"cmd" : "2",
 				"pubkey": "puubkey123",
 				"ip": "127.0.0.1",
 				"port": "8080",
@@ -43,8 +43,6 @@ func register() {
 			if err != nil {
 				panic(err)
 			}
-
-			//logger.LogD(logger.LogLevelInfo, "CLI", "send to HS bytes")
 			fmt.Println("CLI: send to HS:", bytesWritten, " bytes")
 			time.Sleep(5 * time.Second)
 		}
@@ -73,21 +71,23 @@ func listen(conn *net.UDPConn, local string) {
 }
 
 func cli_worker(conn *net.UDPConn, incoming string, local string) {
-
-	var person manager.Person
-	err := json.Unmarshal([]byte(incoming), &person)
-	if err != nil {
-		panic(err) // debug
+	var nodes []manager.Node
+	if err := json.Unmarshal([]byte(incoming), &nodes); err != nil {
+		panic(err)
 	}
-	if person.Tunnel != local {
-		addr, _ := net.ResolveUDPAddr("udp", person.Tunnel)
-		for {
-			conn.WriteTo([]byte("Hello!"), addr)
-			fmt.Println("sent Hello! to ", person.Tunnel)
-			time.Sleep(5 * time.Second)
+
+	fmt.Printf("Unmarshaled %d nodes:\n", len(nodes))
+	for _, node := range nodes {
+		Tunnel := node.Ip + node.Port
+		if Tunnel != local {
+			addr_rmt, _ := net.ResolveUDPAddr("udp", Tunnel)
+			for {
+				conn.WriteTo([]byte("Hello!"), addr_rmt)
+				fmt.Println("sent Hello! to ", Tunnel)
+				time.Sleep(5 * time.Second)
+			}
 		}
 	}
-
 }
 
 func Get_node(id string) {

@@ -1,14 +1,13 @@
 package database
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/Mihalic2040/Rosa-Router/src/serialization"
 )
 
 func FindNodeById(Node string) int {
-	fmt.Println("DB: Addding NODE: ", Node)
+	//fmt.Println("DB: Addding NODE: ", Node)
 	count := find(Node)
 	return count
 }
