@@ -1,2 +1,6 @@
-# Rosa-Router
-The router is the backend part of Rosa. He is responsible for the hot potato protocol and for supporting the p2p network.
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="images/logo.sgv">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
