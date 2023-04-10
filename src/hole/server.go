@@ -90,10 +90,11 @@ func worker(buffer []byte, bytesRead int, remoteAddr *net.UDPAddr, conn *net.UDP
 		panic(err)
 	}
 
+	node, _ := serialization.DeserializeNode(incoming)
+
 	if person.Cmd == "1" {
-		if !cache.Contains(person.Id) {
+		if !cache.Contains(node.Pubkey) {
 			//desializate node
-			node, _ := serialization.DeserializeNode(incoming)
 
 			//Make changes
 

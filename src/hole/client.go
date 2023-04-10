@@ -31,7 +31,7 @@ func register() {
 	go func() {
 		for {
 			bytesWritten, err := Conn.WriteTo([]byte(`{
-				"cmd" : "2",
+				"cmd" : "1",
 				"pubkey": "puubkey123",
 				"ip": "127.0.0.1",
 				"port": "8080",
