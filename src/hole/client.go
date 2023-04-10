@@ -71,6 +71,9 @@ func listen(conn *net.UDPConn, local string) {
 }
 
 func cli_worker(conn *net.UDPConn, incoming string, local string) {
+	//cmd handling
+
+	//adding new node to db
 	var nodes []manager.Node
 	if err := json.Unmarshal([]byte(incoming), &nodes); err != nil {
 		panic(err)
@@ -78,7 +81,8 @@ func cli_worker(conn *net.UDPConn, incoming string, local string) {
 
 	fmt.Printf("Unmarshaled %d nodes:\n", len(nodes))
 	for _, node := range nodes {
-		Tunnel := node.Ip + node.Port
+		Tunnel := node.Ip + ":" + node.Port
+		fmt.Println(Tunnel)
 		if Tunnel != local {
 			addr_rmt, _ := net.ResolveUDPAddr("udp", Tunnel)
 			for {
