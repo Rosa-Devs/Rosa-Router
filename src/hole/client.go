@@ -58,7 +58,7 @@ func listen(conn *net.UDPConn, local string) {
 		buffer := make([]byte, 1024)
 		bytesRead, err := conn.Read(buffer)
 		if err != nil {
-			fmt.Println("[ERROR]", err)
+			fmt.Println("CLI: [ERROR]", err)
 			continue
 		}
 
@@ -81,7 +81,7 @@ func cli_worker(conn *net.UDPConn, incoming string, local string) {
 
 	fmt.Printf("Unmarshaled %d nodes:\n", len(nodes))
 	for _, node := range nodes {
-		Tunnel := node.Ip + ":" + node.Port
+		Tunnel := "[" + node.Ip + "]" + ":" + node.Port
 		fmt.Println(Tunnel)
 		if Tunnel != local {
 			addr_rmt, _ := net.ResolveUDPAddr("udp", Tunnel)
