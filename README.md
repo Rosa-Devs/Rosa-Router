@@ -11,7 +11,7 @@
 
 ## The project was inspired by the architectural disadvantages of the most popular messengers such as:
 
-> Client - Server architecture:
+### Client - Server architecture:
 <br />
     <div align="center">
         <a href="https://github.com/Mihalic2040/Rosa-Router">
@@ -19,7 +19,7 @@
         </a>
     </div>
 
-> No source code:
+### No source code:
 <br />
     <div align="center">
         <a href="https://github.com/Mihalic2040/Rosa-Router">
