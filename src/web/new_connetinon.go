@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Mihalic2040/Rosa-Router/src/hole"
 	"github.com/Mihalic2040/Rosa-Router/src/manager"
 )
 
@@ -13,7 +12,6 @@ func new_connection(w http.ResponseWriter, r *http.Request) {
 	//p := manager.New_connection_out(Tunell: "localhost:9595")
 	id := r.URL.Query().Get("id")
 	fmt.Println(id)
-	hole.Get_node(id)
 
 	p := manager.Universal_out{Msg: "Ok..."}
 	// Convert the person object to JSON

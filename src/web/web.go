@@ -2,6 +2,7 @@ package web
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 )
@@ -30,6 +31,6 @@ func Run_server() {
 	if len(os.Args) > 3 {
 		localAddress = os.Args[3]
 	}
-	fmt.Println("WEB: Starting web api on ", localAddress)
+	log.Println("WEB: Starting web api on ", localAddress)
 	server(localAddress)
 }
