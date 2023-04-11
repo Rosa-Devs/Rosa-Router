@@ -43,6 +43,10 @@ This will allow me to write a client to a dear person who knows how to interact 
 Also, the router is responsible for supporting the hot potato protocol as it runs as a service.
 The essence of the problem was that if 2 nodes are not in the network, it is not realistic to deliver a message to it. This protocol allows a message to live for 60 minutes before being marked as undelivered. If the receiving node cannot receive this message within 60 minutes, it will be deleted and marked as not delivered to the sender.
 
+
+# Why libP2P?
+I didn't want to use the library side, but reinventing the wheel is very long and it takes a lot of time, so I decided to use libp2p for this and then replace it with my library.
+
 # How to build and run
     
     git clone https://github.com/Mihalic2040/Rosa-Router
