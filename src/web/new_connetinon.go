@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Mihalic2040/Rosa-Router/src/manager"
+	"github.com/Rosa-Devs/Rosa-Router/src/manager"
 )
 
 func new_connection(w http.ResponseWriter, r *http.Request) {

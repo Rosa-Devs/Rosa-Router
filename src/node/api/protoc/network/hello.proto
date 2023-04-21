@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package network.hello;
+
+option go_package = "./network";
+
+service HelloService {
+  rpc SendMessage (Message) returns (Response) {}
+}
+
+message Message {
+  string msg = 1;
+}
+
+message Response {
+    string msg = 1;
+}

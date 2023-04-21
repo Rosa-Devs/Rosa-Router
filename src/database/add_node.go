@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Mihalic2040/Rosa-Router/src/serialization"
+	"github.com/Rosa-Devs/Rosa-Router/src/serialization"
 )
 
 func AddNewNode(Node string) {

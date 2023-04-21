@@ -3,7 +3,7 @@ package database
 import (
 	"log"
 
-	"github.com/Mihalic2040/Rosa-Router/src/serialization"
+	"github.com/Rosa-Devs/Rosa-Router/src/serialization"
 )
 
 func FindNodeById(Node string) int {

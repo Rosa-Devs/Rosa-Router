@@ -3,7 +3,7 @@ package serialization
 import (
 	"encoding/json"
 
-	"github.com/Mihalic2040/Rosa-Router/src/manager"
+	"github.com/Rosa-Devs/Rosa-Router/src/manager"
 )
 
 func SerializateNode(Pubkey string, Ip string, Port string, Rating string, Hs string, HsPort string) []byte {

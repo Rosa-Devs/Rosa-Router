@@ -29,6 +29,10 @@ func node() {
 		log.Println("Node: error creating host: ", err)
 		log.Println("Node: host id is: ", host.ID())
 	}
+
 	log.Println("Node: host id is: ", host.ID())
 	log.Println("Node: links: ", host.Addrs())
+
+	log.Println("Node: Starting GRPC server...")
+	Start_grpc() // Entry point of GRPC server
 }

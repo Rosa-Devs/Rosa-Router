@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/Mihalic2040/Rosa-Router/src/node"
-	"github.com/Mihalic2040/Rosa-Router/src/web"
+	"github.com/Rosa-Devs/Rosa-Router/src/node"
+	"github.com/Rosa-Devs/Rosa-Router/src/web"
 )
 
 // Logger
