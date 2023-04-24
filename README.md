@@ -9,7 +9,7 @@
 </div>
 
 
-## The project was inspired by the architectural disadvantages of the most popular messengers such as:
+## The project was inspired by the architectural disadvantages of the most popular messengers:
 
 ### Client - Server architecture:
 <br />
