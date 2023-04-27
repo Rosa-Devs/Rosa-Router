@@ -3,12 +3,12 @@ package node
 import (
 	"context"
 	"fmt"
+	"log"
+	"net"
 
 	"github.com/Rosa-Devs/Rosa-Router/src/node/api/go/network"
-	"github.com/libp2p/go-libp2p/core/host"
-	lnet "github.com/libp2p/go-libp2p/core/network" // tihs is not creating conflic with hello protocol in API folder
+	"github.com/libp2p/go-libp2p/core/host" // tihs is not creating conflic with hello protocol in API folder
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 )
 
 // Entrypoint
@@ -38,25 +38,27 @@ func (s *server) SendMessage(ctx context.Context, message *network.Message) (*ne
 
 // Starter
 func start_grpc_server(port string, host host.Host, ctx context.Context) error { // local func to start server on go routine
-	host.SetStreamHandler("/rosa", func(stream lnet.Stream) {
-		// Create a new gRPC server instance
+	// Add our gRPC protocol to the host
+	log.Println("Node: Initializing grpc server")
+	// start the server
+	srv := grpc.NewServer()
+	log.Println("Node: GRPC started...")
 
-		srv := grpc.NewServer()
+	network.RegisterHelloServiceServer(srv, &server{})
 
-		// Register our server implementation
-		network.RegisterHelloServiceServer(srv, &server{})
+	//create lister for serving
+	listener, err := net.Listen("tcp", ":"+port)
+	log.Println("Node: GRPC Server started on: ", listener.Addr())
+	if err != nil {
+		panic(err)
+	}
 
-		// Enable reflection for debugging purposes
-		reflection.Register(srv)
+	//say server to listen this port
+	if err := srv.Serve(listener); err != nil {
+		panic(err)
+	}
 
-		// Serve the incoming gRPC requests on the stream
-		if err := srv.Serve(); err != nil {
-			panic(err)
-		}
-	})
-
-	// Wait for the host to be closed
-
+	return nil
 }
 
 // func start_grpc_server(port string, host host.Host) error { // local func to start server on go routine

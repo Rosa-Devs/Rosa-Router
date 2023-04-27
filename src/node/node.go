@@ -25,17 +25,15 @@ func Run_node() {
 	node()
 }
 
-var port string
-
 func get_environment() string {
 	node_mod := os.Args[1]
 
 	switch node_mod {
 	case "b":
 		fmt.Println()
-		port = "9595"
 		return "/ip4/0.0.0.0/tcp/9563/" // default bootstrap nodes
 	}
+
 	return "/ip4/0.0.0.0/tcp/0/"
 }
 
@@ -64,6 +62,12 @@ func node() {
 
 	log.Println("Node: Starting GRPC server...")
 
+	// Get the multiaddress of the host
+
+	// Extract the TCP port number from the multiaddress
+	port, _ := GetHostPort(host)
+	port = "43825"
+	log.Println("PORT : ", port)
 	Start_grpc(port, host, ctx) // Entry point of GRPC server // port here
 
 	//DHT configuration
