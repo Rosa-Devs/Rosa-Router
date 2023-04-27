@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	"os"
+	"time"
 
 	"github.com/Rosa-Devs/Rosa-Router/src/node"
 	"github.com/Rosa-Devs/Rosa-Router/src/web"
@@ -16,17 +16,16 @@ func init() {
 // Entrypoint
 func main() {
 
-	cmd := os.Args[1]
-
 	// init Db
 	//database.Start_db()
 
-	switch cmd {
-	case "b":
-		log.Println("Init bootstrap node...")
-	case "c":
-		log.Println("Init node...")
-		node.Run_node()
-	}
+	log.Println("Main: initialize node...")
+	node.Run_node()
+	// This for testing GRPC Server worker properly.
+	// This code only for TEST not commit and pr to git
+	time.Sleep(2 * time.Second)
+	//request.Send_test_request()
+
+	// This is main procces, he providing local web api for client
 	web.Run_server()
 }

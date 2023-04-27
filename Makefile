@@ -13,7 +13,9 @@ $(shell mkdir -p $(dir $(BIN_PATH)))
 
 # Build the program
 build:
+	@echo "---- Building MAIN app ----"
 	go build -o $(BIN_PATH)
+	@echo "---- Build MAIN DONE ----"
 
 # Clean the build artifacts
 clean:
@@ -22,8 +24,9 @@ clean:
 
 # Build the GRPC api
 api:
+	@echo "---- Building API files ----"
 	protoc --proto_path=$(REPO_DIR) --go_out=$(API_DIR) --go-grpc_out=$(API_DIR) $(REPO_DIR)/**/*.proto
-	
+	@echo "---- Build API DONE ----"
 
 # # Install the program
 # install: build

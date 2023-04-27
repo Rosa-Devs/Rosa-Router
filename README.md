@@ -45,11 +45,16 @@ The essence of the problem was that if 2 nodes are not in the network, it is not
 
 
 # Why libP2P?
-I didn't want to use the library side, but reinventing the wheel is very long and it takes a lot of time, so I decided to use libp2p for this and then replace it with my library.
+I didn't want to use the library side, but reinventing the wheel is very long and it takes a lot of time, so I decided to use libp2p for this and then replace it with own library.
+
+# What is GRRL?
+GRRL is a abbreviation of "Go Rosa Request Library".
+This library created for add the client side to the application.
+The APP runs a grps server and also has this library to send requests to other nodes.
 
 # How to build and run
     
-    git clone https://github.com/Mihalic2040/Rosa-Router
+    git clone https://github.com/Rosa-Devs/Rosa-Router
     cd Rosa-Router
     make build  #Generate launch codes for nuclear missiles
 
